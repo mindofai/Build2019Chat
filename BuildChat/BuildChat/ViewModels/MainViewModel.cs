@@ -85,19 +85,19 @@ namespace BuildChat.ViewModels
 
         async Task Connect()
         {
-            Messages.Add(new MessageModel() { User = Name, Message = $"{Name} has joined", IsOwnMessage = true });
+            Messages.Add(new MessageModel() { User = Name, Message = $"{Name} has joined the chat", IsSystemMessage = true });
             IsConnected = true;
         }
 
         async Task SendMessage(string user, string message)
         {
-                Messages.Add(new MessageModel() { User = Name, Message = Message, IsOwnMessage = true });
+            Messages.Add(new MessageModel() { User = Name, Message = Message, IsSystemMessage = false, IsOwnMessage = true });
         }
 
         async Task Disconnect()
         {
-                Messages.Add(new MessageModel() { User = Name, Message = $"{Name} has joined", IsOwnMessage = true });
-                IsConnected = false;
+            Messages.Add(new MessageModel() { User = Name, Message = $"{Name} has left the chat", IsSystemMessage = true });
+            IsConnected = false;
         }
 
         protected virtual void OnPropertyChanged([CallerMemberName]string propertyName = "")

@@ -49,72 +49,83 @@
                 <DataTemplate>
                     <ViewCell>
                         <Grid>
-                            <Grid IsVisible="{Binding IsOwnMessage, Converter={StaticResource InverseBool}}" RowSpacing="0">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="5*" />
-                                    <ColumnDefinition Width="5*" />
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
+                            <Grid IsVisible="{Binding IsSystemMessage}">
                                 <Label
-                                    Grid.Column="1"
-                                    Margin="10,0"
-                                    HorizontalOptions="End"
-                                    HorizontalTextAlignment="End"
-                                    Text="{Binding User}"
-                                    TextColor="#969daf" />
-                                <Grid
-                                    Grid.Row="1"
-                                    Grid.Column="1"
                                     Margin="20,5"
-                                    Padding="10"
-                                    HorizontalOptions="End"
-                                    VerticalOptions="FillAndExpand">
-                                    <BoxView
-                                        BackgroundColor="#f5f9fa"
-                                        CornerRadius="30"
-                                        HorizontalOptions="FillAndExpand" />
-                                    <Label
-                                        Margin="10"
-                                        LineBreakMode="CharacterWrap"
-                                        Text="{Binding Message}"
-                                        TextColor="#696f7f"
-                                        VerticalOptions="FillAndExpand" />
-                                </Grid>
+                                    FontSize="16"
+                                    HorizontalOptions="CenterAndExpand"
+                                    HorizontalTextAlignment="Center"
+                                    Text="{Binding Message}"
+                                    TextColor="#969daf" />
                             </Grid>
-
-                            <Grid IsVisible="{Binding IsOwnMessage}" RowSpacing="0">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="5*" />
-                                    <ColumnDefinition Width="5*" />
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
-                                <Label
-                                    Margin="10,0"
-                                    HorizontalOptions="Start"
-                                    Text="{Binding User}"
-                                    TextColor="#969daf" />
-                                <Grid
-                                    Grid.Row="1"
-                                    Margin="20,5"
-                                    Padding="10"
-                                    HorizontalOptions="Start"
-                                    VerticalOptions="FillAndExpand">
-                                    <BoxView
-                                        BackgroundColor="#2ac2c5"
-                                        CornerRadius="30"
-                                        HorizontalOptions="FillAndExpand" />
+                            <Grid IsVisible="{Binding IsSystemMessage, Converter={StaticResource InverseBool}}">
+                                <Grid IsVisible="{Binding IsOwnMessage, Converter={StaticResource InverseBool}}" RowSpacing="0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="5*" />
+                                        <ColumnDefinition Width="5*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
                                     <Label
-                                        Margin="10"
-                                        LineBreakMode="CharacterWrap"
-                                        Text="{Binding Message}"
-                                        TextColor="White"
-                                        VerticalOptions="FillAndExpand" />
+                                        Grid.Column="1"
+                                        Margin="10,0"
+                                        HorizontalOptions="End"
+                                        HorizontalTextAlignment="End"
+                                        Text="{Binding User}"
+                                        TextColor="#969daf" />
+                                    <Grid
+                                        Grid.Row="1"
+                                        Grid.Column="1"
+                                        Margin="20,5"
+                                        Padding="10"
+                                        HorizontalOptions="End"
+                                        VerticalOptions="FillAndExpand">
+                                        <BoxView
+                                            BackgroundColor="#f5f9fa"
+                                            CornerRadius="30"
+                                            HorizontalOptions="FillAndExpand" />
+                                        <Label
+                                            Margin="10"
+                                            LineBreakMode="CharacterWrap"
+                                            Text="{Binding Message}"
+                                            TextColor="#696f7f"
+                                            VerticalOptions="FillAndExpand" />
+                                    </Grid>
+                                </Grid>
+
+                                <Grid IsVisible="{Binding IsOwnMessage}" RowSpacing="0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="5*" />
+                                        <ColumnDefinition Width="5*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Label
+                                        Margin="10,0"
+                                        HorizontalOptions="Start"
+                                        Text="{Binding User}"
+                                        TextColor="#969daf" />
+                                    <Grid
+                                        Grid.Row="1"
+                                        Margin="20,5"
+                                        Padding="10"
+                                        HorizontalOptions="Start"
+                                        VerticalOptions="FillAndExpand">
+                                        <BoxView
+                                            BackgroundColor="#2ac2c5"
+                                            CornerRadius="30"
+                                            HorizontalOptions="FillAndExpand" />
+                                        <Label
+                                            Margin="10"
+                                            LineBreakMode="CharacterWrap"
+                                            Text="{Binding Message}"
+                                            TextColor="White"
+                                            VerticalOptions="FillAndExpand" />
+                                    </Grid>
                                 </Grid>
                             </Grid>
                         </Grid>
