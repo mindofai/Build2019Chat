@@ -1,4 +1,5 @@
 ﻿using BuildChat.Models;
+using Microsoft.AspNetCore.SignalR.Client;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -69,6 +70,8 @@ namespace BuildChat.ViewModels
             }
         }
 
+        private HubConnection hubConnection;
+
         public Command SendMessageCommand { get; }
         public Command ConnectCommand { get; }
         public Command DisconnectCommand { get; }
@@ -81,22 +84,48 @@ namespace BuildChat.ViewModels
             DisconnectCommand = new Command(async () => await Disconnect());
 
             IsConnected = false;
+
+            hubConnection = new HubConnectionBuilder()
+         .WithUrl($"http://signalrdemomsph.azurewebsites.net/chatHub")
+         .Build();
+
+
+            hubConnection.On<string>("JoinChat", (user) =>
+            {
+                Messages.Add(new MessageModel() { User = Name, Message = $"{user} has joined the chat", IsSystemMessage = true });
+            });
+
+            hubConnection.On<string>("LeaveChat", (user) =>
+            {
+                Messages.Add(new MessageModel() { User = Name, Message = $"{user} has left the chat", IsSystemMessage = true });
+            });
+
+            hubConnection.On<string,string>("ReceiveMessage", (user, message) =>
+            {
+                Messages.Add(new MessageModel() { User = user, Message = message, IsSystemMessage = false, IsOwnMessage = Name == user });
+            });
+
+
         }
 
         async Task Connect()
         {
-            Messages.Add(new MessageModel() { User = Name, Message = $"{Name} has joined the chat", IsSystemMessage = true });
+            await hubConnection.StartAsync();
+            await hubConnection.InvokeAsync("JoinChat", Name);
+
             IsConnected = true;
         }
 
         async Task SendMessage(string user, string message)
         {
-            Messages.Add(new MessageModel() { User = Name, Message = Message, IsSystemMessage = false, IsOwnMessage = true });
+            await hubConnection.InvokeAsync("SendMessage", user, message);
         }
 
         async Task Disconnect()
         {
-            Messages.Add(new MessageModel() { User = Name, Message = $"{Name} has left the chat", IsSystemMessage = true });
+            await hubConnection.InvokeAsync("LeaveChat", Name);
+            await hubConnection.StopAsync();
+
             IsConnected = false;
         }
 
