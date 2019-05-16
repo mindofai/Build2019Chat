@@ -166,7 +166,18 @@
                 VerticalOptions="Center">
                 <Label
                     HorizontalOptions="Center"
-                    Text="Your chat name:"
+                    Text="Your chat group:"
+                    TextColor="Black"
+                    VerticalOptions="Center" />
+                <Entry
+                    BackgroundColor="#f5f9fa"
+                    Placeholder="Name"
+                    PlaceholderColor="#969daf"
+                    Text="{Binding Group}"
+                    WidthRequest="150" />
+                <Label
+                    HorizontalOptions="Center"
+                    Text="Your name:"
                     TextColor="Black"
                     VerticalOptions="Center" />
                 <Entry

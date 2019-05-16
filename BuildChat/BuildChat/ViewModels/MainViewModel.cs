@@ -14,6 +14,7 @@ namespace BuildChat.ViewModels
         public event PropertyChangedEventHandler PropertyChanged;
 
         private string _name;
+        private string _group;
         private string _message;
         private ObservableCollection<MessageModel> _messages;
         private bool _isConnected;
@@ -27,6 +28,18 @@ namespace BuildChat.ViewModels
             set
             {
                 _name = value;
+                OnPropertyChanged();
+            }
+        }
+        public string Group
+        {
+            get
+            {
+                return _group;
+            }
+            set
+            {
+                _group = value;
                 OnPropertyChanged();
             }
         }
@@ -90,17 +103,17 @@ namespace BuildChat.ViewModels
          .Build();
 
 
-            hubConnection.On<string>("JoinChat", (user) =>
+            hubConnection.On<string>("JoinGroupMessage", (user) =>
             {
-                Messages.Add(new MessageModel() { User = Name, Message = $"{user} has joined the chat", IsSystemMessage = true });
+                Messages.Add(new MessageModel() { User = Name, Message = $"{user} has joined the chat group", IsSystemMessage = true });
             });
 
-            hubConnection.On<string>("LeaveChat", (user) =>
+            hubConnection.On<string>("LeaveGroupMessage", (user) =>
             {
-                Messages.Add(new MessageModel() { User = Name, Message = $"{user} has left the chat", IsSystemMessage = true });
+                Messages.Add(new MessageModel() { User = Name, Message = $"{user} has left the chat group", IsSystemMessage = true });
             });
 
-            hubConnection.On<string,string>("ReceiveMessage", (user, message) =>
+            hubConnection.On<string,string>("ReceiveGroupMessage", (user, message) =>
             {
                 Messages.Add(new MessageModel() { User = user, Message = message, IsSystemMessage = false, IsOwnMessage = Name == user });
             });
@@ -111,19 +124,19 @@ namespace BuildChat.ViewModels
         async Task Connect()
         {
             await hubConnection.StartAsync();
-            await hubConnection.InvokeAsync("JoinChat", Name);
+            await hubConnection.InvokeAsync("JoinGroupChat", Group, Name);
 
             IsConnected = true;
         }
 
         async Task SendMessage(string user, string message)
         {
-            await hubConnection.InvokeAsync("SendMessage", user, message);
+            await hubConnection.InvokeAsync("SendGroupMessage", Group, user, message);
         }
 
         async Task Disconnect()
         {
-            await hubConnection.InvokeAsync("LeaveChat", Name);
+            await hubConnection.InvokeAsync("LeaveGroupChat", Group, Name);
             await hubConnection.StopAsync();
 
             IsConnected = false;
